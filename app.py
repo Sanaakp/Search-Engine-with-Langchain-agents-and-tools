@@ -1,9 +1,9 @@
 import streamlit as st
-from langchain_groq import ChatGroq
-from langchain_community.utilities import ArxivAPIWrapper,WikipediaAPIWrapper
-from langchain_community.tools import ArxivQueryRun,WikipediaQueryRun,DuckDuckGoSearchRun
-from langchain_classic.agents import initialize_agent,AgentType
-from langchain_community.callbacks import StreamlitCallbackHandler
+from langchain-groq import ChatGroq
+from langchain-community.utilities import ArxivAPIWrapper,WikipediaAPIWrapper
+from langchain-community.tools import ArxivQueryRun,WikipediaQueryRun,DuckDuckGoSearchRun
+from langchain-classic.agents import initialize_agent,AgentType
+from langchain-community.callbacks import StreamlitCallbackHandler
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -47,4 +47,5 @@ if prompt:=st.chat_input("what is machine learning?"):
          st_cb=StreamlitCallbackHandler(st.container(),expand_new_thoughts=False)
          response=search_agent.run(st.session_state.messages,callbacks=[st_cb])
          st.session_state.messages.append({"role":"assistant","content":response})
+
          st.write(response)
