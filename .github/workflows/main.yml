@@ -1,20 +1,30 @@
-name: Sync to Hugging Face hub
+name: Sync to Hugging Face
+
 on:
   push:
-    branches: [main]
-
-  # to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
-  sync-to-hub:
+  sync:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          lfs: true
-      - name: Push to hub
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://sana-ai-2025:$HF_TOKEN@huggingface.co/spaces/sana-ai-2025/search_engine main
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Configure Git
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+    
+    - name: Pull from Hugging Face first
+      run: |
+        git pull https://sana-ai-2025:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/sana-ai-2025/search_engine main --allow-unrelated-histories --no-rebase || true
+      continue-on-error: true
+    
+    - name: Push to Hugging Face
+      run: |
+        git push https://sana-ai-2025:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/sana-ai-2025/search_engine main
