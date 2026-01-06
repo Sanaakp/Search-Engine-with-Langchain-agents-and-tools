@@ -115,7 +115,7 @@ Open the local URL printed by Streamlit (typically http://localhost:8501).
 
 Pin versions in a `requirements.txt` for reproducible environments.
 
----
+
 
 ## Troubleshooting
 
